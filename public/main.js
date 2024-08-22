@@ -111,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
           if (index === randomList.length -1) {
             button.disabled = false;
           }
-        }, cumulativeDelay);
+        },100);
       });
 
       input.value = '';
@@ -121,14 +121,8 @@ document.addEventListener('DOMContentLoaded', () => {
   function scrollToBottom(element) {
     setTimeout(() => {
       element.scrollTop = element.scrollHeight;
-    },100);
+    },300);
   }
 
-  button.addEventListener('click',SendMessage);
-
-  input.addEventListener('keydown', (event) => {
-    if (event.key === 'Enter') {
-      SendMessage();
-    }
-  });
+  button.addEventListener('click', SendMessage);
 });
