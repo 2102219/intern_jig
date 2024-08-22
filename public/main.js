@@ -90,28 +90,31 @@ document.addEventListener('DOMContentLoaded', () => {
         cumulativeDelay += delay;
 
         setTimeout(() => {
-          const botMessage = document.createElement('div');
-          botMessage.classList.add('todo-item','bot-message');
+          setTimeout(() => {
+            const botMessage = document.createElement('div');
+            botMessage.classList.add('todo-item','bot-message');
 
-          const icon = document.createElement('div');
-          icon.classList.add('icon');
-          icon.style.backgroundColor = RandomColor();
-          icon.textContent = RandomIcon();
-          botMessage.appendChild(icon);
+            const icon = document.createElement('div');
+            icon.classList.add('icon');
+            icon.style.backgroundColor = RandomColor();
+            icon.textContent = RandomIcon();
+            botMessage.appendChild(icon);
 
-          const botMessageContent = document.createElement('div');
-          botMessageContent.classList.add('message','bot');
-          botMessageContent.textContent = FixedPraise(userInput,index,randomList);
-          botMessage.appendChild(botMessageContent);
+            const botMessageContent = document.createElement('div');
+            botMessageContent.classList.add('message','bot');
+            botMessageContent.textContent = FixedPraise(userInput,index,randomList);
+            botMessage.appendChild(botMessageContent);
 
-          todoDiv.appendChild(botMessage);
+            todoDiv.appendChild(botMessage);
 
-          scrollToBottom(chatArea);
+            scrollToBottom(chatArea);
 
-          if (index === randomList.length -1) {
-            button.disabled = false;
-          }
-        },100);
+            if (index === randomList.length -1) {
+              button.disabled = false;
+            }
+          },1000);
+          
+        }, cumulativeDelay);
       });
 
       input.value = '';
@@ -121,8 +124,8 @@ document.addEventListener('DOMContentLoaded', () => {
   function scrollToBottom(element) {
     setTimeout(() => {
       element.scrollTop = element.scrollHeight;
-    },300);
+    },100);
   }
 
-  button.addEventListener('click', SendMessage);
+  button.addEventListener('click',SendMessage);
 });
