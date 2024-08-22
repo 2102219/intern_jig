@@ -26,9 +26,9 @@ main {
   flex: 1;
   overflow: auto;
   background-color: #7193c1;
-  padding: 50px 10px 50px;
-  margin-top: 30px;
-  margin-bottom: 30px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
 }
 
 footer {
