@@ -28,6 +28,8 @@ main {
 }
 
 footer {
+  display: flex;
+  justify-content: center;
   padding: 10px 0;
   border-top: 1px solid #ddd;
   background-color: #f5f5f5;
