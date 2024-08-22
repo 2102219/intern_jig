@@ -9,11 +9,29 @@ body {
 
 header {
   text-align: center;
+  padding: 10px 0;
+  height: 30px;
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 main {
+  flex: 1;
+  overflow: auto;
   background-color: #7193c1;
   padding: 10px;
+}
+
+footer {
+  display: flex;
+  padding: 10px;
+  border-top: 1px solid #ddd;
+  background-color: #f5f5f5;
+  position: sticky;
+  bottom: 0;
+  width: 100%;
 }
 
 #chat {
@@ -27,13 +45,6 @@ main {
 #Todo {
   display: flex;
   flex-direction: column;
-}
-
-footer {
-  display: flex;
-  padding: 10px;
-  border-top: 1px solid #ddd;
-  background-color: #f5f5f5;
 }
 
 #userInput {
@@ -60,10 +71,6 @@ footer {
   justify-content: flex-end;
 }
 
-.todo-item.user-message {
-  justify-content: flex-end;
-}
-
 .todo-item.bot-message {
   justify-content: flex-start;
 }
@@ -83,4 +90,14 @@ footer {
 
 .message.bot {
   background-color: white;
+}
+
+.icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  font-size: 20px;
+  align-items: center;
+  justify-content: center;
 }
