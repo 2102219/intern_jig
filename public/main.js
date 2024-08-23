@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const todoDiv = document.getElementById('Todo');
   const chatArea = document.getElementById('chat');
   const bgm = document.getElementById('bgm');
-  bgm.volume = 0.8;
+  bgm.volume = 0.7;
   bgm.loop = true;
 
   let isPlaying = false;
