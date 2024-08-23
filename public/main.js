@@ -3,6 +3,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const input = document.getElementById('userInput');
   const todoDiv = document.getElementById('Todo');
   const chatArea = document.getElementById('chat');
+  const bgm = document.getElementById('bgm');
+  bgm.volume = 0.8;
+  bgm.loop = true;
+
+  let isPlaying = false;
 
   const botList = [
     [
@@ -69,10 +74,6 @@ document.addEventListener('DOMContentLoaded', () => {
     return color;
   }
   
-  function RandomDelay() {
-    return Math.floor(Math.random() * 1000) + 500;
-  }
-
   function FixedPraise(input, index, list) {
     return list[index % list.length].replace('{input}', input);
   }
@@ -97,38 +98,40 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const randomList = botList[Math.floor(Math.random() * botList.length)];
 
-      let cumulativeDelay = 0;
+      if (!isPlaying) {
+        fadeIn(bgm,1000);
+        isPlaying = true;
+      }
+
 
       randomList.forEach((template, index) => {
-        const delay = RandomDelay();
-        cumulativeDelay += delay;
-
+        const delay = 1700;
+        
         setTimeout(() => {
-          setTimeout(() => {
-            const botMessage = document.createElement('div');
-            botMessage.classList.add('todo-item','bot-message');
+          const botMessage = document.createElement('div');
+          botMessage.classList.add('todo-item','bot-message');
 
-            const icon = document.createElement('div');
-            icon.classList.add('icon');
-            icon.style.backgroundColor = RandomColor();
-            icon.textContent = RandomIcon();
-            botMessage.appendChild(icon);
+          const icon = document.createElement('div');
+          icon.classList.add('icon');
+          icon.style.backgroundColor = RandomColor();
+          icon.textContent = RandomIcon();
+          botMessage.appendChild(icon);
 
-            const botMessageContent = document.createElement('div');
-            botMessageContent.classList.add('message','bot');
-            botMessageContent.textContent = FixedPraise(userInput,index,randomList);
-            botMessage.appendChild(botMessageContent);
+          const botMessageContent = document.createElement('div');
+          botMessageContent.classList.add('message','bot');
+          botMessageContent.textContent = FixedPraise(userInput,index,randomList);
+          botMessage.appendChild(botMessageContent);
 
-            todoDiv.appendChild(botMessage);
+          todoDiv.appendChild(botMessage);
 
-            scrollToBottom(chatArea);
+          scrollToBottom(chatArea);
 
-            if (index === randomList.length -1) {
-              button.disabled = false;
-            }
-          },1000);
-          
-        }, cumulativeDelay);
+          if (index === randomList.length -1) {
+            button.disabled = false;
+            fadeOut(bgm,1000);
+            isPlaying = false;
+          }
+        }, index * delay + 1000);
       });
 
       input.value = '';
@@ -143,3 +146,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
   button.addEventListener('click',SendMessage);
 });
+
+function fadeIn(audio, duration = 200) {
+  if (audio.paused) {
+    audio.volume = 0;
+    audio.play();
+  }
+  const step = 0.1;
+  const interval = duration / (1 / step);
+
+  const fade = setInterval(() => {
+    if (audio.volume < 1) {
+      audio.volume = Math.min(audio.volume + step, 1);
+    }
+    else {
+      clearInterval(fade);
+    }
+  },interval)
+}
+
+function fadeOut(audio,duration = 200) {
+  const step = 0.1;
+  const interval = duration / (1 / step);
+
+  const fade = setInterval(() => {
+    if (audio.volume > 0) {
+      audio.volume = Math.max(audio.volume - step, 0);
+    }else {
+      audio.pause();
+      audio.currentTime = 0;
+      clearInterval(fade);
+    }
+  },interval);
+}
