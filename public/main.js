@@ -4,7 +4,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const todoDiv = document.getElementById('Todo');
   const chatArea = document.getElementById('chat');
   const bgm = document.getElementById('bgm');
-  bgm.volume = 0.7;
+
+  bgm.volume = 0.5;
   bgm.loop = true;
 
   let isPlaying = false;
@@ -50,6 +51,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const icons = ['🎤','🎸','🥁','🎹','⚡'];
   let shuffledIcons = shuffleArray([...icons]);
 
+  button.addEventListener('click', SendMessage);
+
   function shuffleArray(array) {
     for (let i = array.length -1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -93,7 +96,6 @@ document.addEventListener('DOMContentLoaded', () => {
       userMessage.appendChild(userMessageContent);
       
       todoDiv.appendChild(userMessage);
-
       scrollToBottom(chatArea);
 
       const randomList = botList[Math.floor(Math.random() * botList.length)];
@@ -102,7 +104,6 @@ document.addEventListener('DOMContentLoaded', () => {
         fadeIn(bgm,1000);
         isPlaying = true;
       }
-
 
       randomList.forEach((template, index) => {
         const delay = 1700;
@@ -123,7 +124,6 @@ document.addEventListener('DOMContentLoaded', () => {
           botMessage.appendChild(botMessageContent);
 
           todoDiv.appendChild(botMessage);
-
           scrollToBottom(chatArea);
 
           if (index === randomList.length -1) {
@@ -144,38 +144,37 @@ document.addEventListener('DOMContentLoaded', () => {
     },100);
   }
 
-  button.addEventListener('click',SendMessage);
-});
-
-function fadeIn(audio, duration = 200) {
-  if (audio.paused) {
-    audio.volume = 0;
-    audio.play();
+  function fadeIn(audio, duration = 200) {
+    if (audio.paused) {
+      audio.volume = 0;
+      audio.play();
+    }
+    const step = 0.1;
+    const interval = duration / (1 / step);
+  
+    const fade = setInterval(() => {
+      if (audio.volume < 1) {
+        audio.volume = Math.min(audio.volume + step, 1);
+      }
+      else {
+        clearInterval(fade);
+      }
+    },interval);
   }
-  const step = 0.1;
-  const interval = duration / (1 / step);
-
-  const fade = setInterval(() => {
-    if (audio.volume < 1) {
-      audio.volume = Math.min(audio.volume + step, 1);
-    }
-    else {
-      clearInterval(fade);
-    }
-  },interval)
-}
-
-function fadeOut(audio,duration = 200) {
-  const step = 0.1;
-  const interval = duration / (1 / step);
-
-  const fade = setInterval(() => {
-    if (audio.volume > 0) {
-      audio.volume = Math.max(audio.volume - step, 0);
-    }else {
-      audio.pause();
-      audio.currentTime = 0;
-      clearInterval(fade);
-    }
-  },interval);
-}
+  
+  function fadeOut(audio,duration = 200) {
+    const step = 0.1;
+    const interval = duration / (1 / step);
+  
+    const fade = setInterval(() => {
+      if (audio.volume > 0) {
+        audio.volume = Math.max(audio.volume - step, 0);
+      }
+      else {
+        audio.pause();
+        audio.currentTime = 0;
+        clearInterval(fade);
+      }
+    },interval);
+  }
+});
